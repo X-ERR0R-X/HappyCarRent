@@ -1,0 +1,16 @@
+ion-button{
+    background-color: limegreen;
+    align-content: center;
+}
+
+ion-button:hover{
+    background-color: orangered;
+}
+.sabermais{
+    background-color: grey;
+    color: white;
+}
+
+h2{
+    text-align: center;
+}

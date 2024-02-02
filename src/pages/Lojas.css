@@ -1,0 +1,14 @@
+ion-item {
+    --padding-start: 0;
+}
+ion-button{
+    background-color: limegreen;
+}
+
+ion-button:hover{
+    background-color: orangered;
+}
+
+ion-row{
+    margin-bottom: 25px;
+}

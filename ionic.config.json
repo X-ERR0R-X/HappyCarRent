@@ -1,0 +1,7 @@
+{
+  "name": "projetohappycarrent",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
