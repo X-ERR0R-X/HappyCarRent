@@ -14,6 +14,7 @@ import {
     IonCardContent, IonToolbar, IonSearchbar, IonButton, IonPage, IonLabel, IonMenuButton, IonGrid, IonRow, IonCol,
 } from '@ionic/react';
 import './Lojas.css';
+import { useHistory } from 'react-router';
 
 interface Store {
     id: number;
@@ -25,24 +26,24 @@ interface Store {
     telefone: number;
 }
 
-
 const Lojas: React.FC = () => {
     const [showModal, setShowModal] = useState(false);
     const [selectedStore, setSelectedStore] = useState<Store | null>(null);
-    const [ Lojas, setLojas ] = useState<Store[]>([])
+    const history = useHistory();
 
     useEffect(() => {
         const fetchLojas = async () => {
-            try {
-                const response = await fetch('http://localhost:3000/lojas');
-                const data = await response.json();
-                setLojas(data);
-            } catch (error) {
-                console.error('Erro a buscar as lojas:', error);
-            }
+          try {
+            const response = await fetch('http://localhost:3000/lojas');
+            const lojaData = await response.json();
+            console.log('Dados das lojas', lojaData);
+            setSelectedStore(lojaData);
+          } catch (error) {
+            console.error('Erro ao obter dados das lojas:', (error as Error).message);
+          }
         };
-        fetchLojas();
-    }, []);
+          fetchLojas();
+        }, []);
 
 
     const handleOpenModal = (store: Store) => {
@@ -58,6 +59,9 @@ const Lojas: React.FC = () => {
         setShowModal(false);
     };
 
+    const navigateToFrota = () => {
+        history.push('/frota');
+      };
 
     return (
         <IonPage>
@@ -72,22 +76,24 @@ const Lojas: React.FC = () => {
 
             <IonContent fullscreen>
                 <IonList>
-                    {Lojas.map((store, index) => (
-                        <IonItem key={index}>
-                            <IonGrid fixed={true}>
-                                <IonRow>
-                                    <IonCol>
-                                        <IonTitle>{store.name}</IonTitle>
-                                        <p>{store.address}</p>
-                                    </IonCol>
-                                    <IonCol>
-                                        <IonButton onClick={() => handleOpenModal(store)} color={'red'}>Mais informações</IonButton>
-                                        <IonButton routerLink={`/Frota?loja=${store.id}`} color={'red'}>Frota</IonButton>
-                                    </IonCol>
-                                </IonRow>
-                            </IonGrid>
-                        </IonItem>
-                    ))}
+                    {Lojas.map((store: Store, index: React.Key | null | undefined) => {
+                        return (
+                            <IonItem key={index}>
+                                <IonGrid fixed={true}>
+                                    <IonRow>
+                                        <IonCol>
+                                            <IonTitle>{store.name}</IonTitle>
+                                            <p>{store.address}</p>
+                                        </IonCol>
+                                        <IonCol>
+                                            <IonButton onClick={() => handleOpenModal(store)} color={'red'}>Mais informações</IonButton>
+                                            <IonButton routerLink={`/Frota?loja=${store.id}`} color={'red'}>Frota</IonButton>
+                                        </IonCol>
+                                    </IonRow>
+                                </IonGrid>
+                            </IonItem>
+                        );
+                    })}
                 </IonList>
 
                 {selectedStore && (

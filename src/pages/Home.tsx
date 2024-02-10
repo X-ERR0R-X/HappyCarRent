@@ -23,12 +23,31 @@ const Home: React.FC = () => {
     const [longitude, setLongitude] = useState(null);
     const [store, setStore] = useState({});
 
+    function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number) {
+        const R = 6371; // Radius of the Earth in kilometers
+        const dLat = (lat2 - lat1) * (Math.PI / 180);
+        const dLon = (lon2 - lon1) * (Math.PI / 180);
+        const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        const distance = R * c;
+
+        return distance;
+    }
+
     useEffect(() => {
         Geolocation.getCurrentPosition().then((position) => {
             setLatitude(position.coords.latitude);
             setLongitude(position.coords.longitude);
-        });
-    }, []);
+
+            fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&appid=SUA_CHAVE_DE_API&units=metric`)
+            .then(response => response.json())
+            .then(data => {
+                setTemperature(data.main.temp);
+            })
+            .catch(error => console.log(error));
+    });
+}, []);
 
 return (
     <IonPage>
@@ -132,3 +151,7 @@ return (
 };
 
 export default Home;
+
+function setTemperature(temp: any) {
+    throw new Error("Function not implemented.");
+}
