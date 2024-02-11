@@ -22,9 +22,9 @@ import ExploreContainer from '../components/ExploreContainer';
 import './Frota.css';
 
 interface Car {
-    nome: string;
+    marca: string;
+    modelo: string;
     descricao: string;
-    tecnicalData: string;
     informacao: string;
     precodiario: string;
     imagem: string
@@ -43,7 +43,7 @@ const Frota: React.FC = () => {
     useEffect(() => {
         const fetchCarros = async () =>{
             try {
-                const response = await fetch('http://localhost:3000/frota')
+                const response = await fetch('http://localhost:3000/carros')
                 const data = await response.json();
                 setCarros(data);
             } catch (error) {
@@ -90,8 +90,8 @@ const Frota: React.FC = () => {
                             <IonCard>
                                 <IonImg src={carroItem.imagem}></IonImg>
                                 <IonCardHeader>
-                                    <IonCardTitle>{carroItem.nome}</IonCardTitle>
-                                    <IonCardSubtitle>{carroItem.tecnicalData}</IonCardSubtitle>
+                                    <IonCardTitle>{carroItem.marca}</IonCardTitle>
+                                    <IonCardSubtitle>{carroItem.modelo}</IonCardSubtitle>
                                 </IonCardHeader>
                                 <IonCardContent>
                                     <IonButton color={"red"} onClick={() => handleOpenModal(carroItem)}>Mais informações</IonButton>
@@ -104,9 +104,9 @@ const Frota: React.FC = () => {
                 {selectedCar && (
                     <IonModal isOpen={showModal} onDidDismiss={handleCloseModal}>
                         <IonContent>
-                            <IonTitle><h2>{selectedCar.nome}</h2></IonTitle>
+                            <IonTitle><h2>{selectedCar.marca}</h2></IonTitle>
                             <IonImg src={selectedCar.imagem}></IonImg>
-                            <IonTitle><h3>{selectedCar.tecnicalData}</h3></IonTitle>
+                            <IonTitle><h3>{selectedCar.modelo}</h3></IonTitle>
                             <IonGrid>
                                 <IonRow>
                                     <IonCol>
