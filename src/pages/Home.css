@@ -3,11 +3,11 @@ ion-button{
     align-content: center;
 }
 
-ion-button:hover{
-    background-color: orangered;
+ion-button:hover{  
+    background-color: white;
 }
 .sabermais{
-    background-color: grey;
+    background-color: rgb(255, 60, 0);
     color: white;
 }
 
