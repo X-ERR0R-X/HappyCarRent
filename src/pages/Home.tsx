@@ -17,37 +17,47 @@ import {
 import { logoIonic } from 'ionicons/icons';
 import React, {useEffect, useState} from "react";
 import './Home.css';
+import { rainySharp } from 'ionicons/icons';
 const Home: React.FC = () => {
 
+    const [weather, setWeather] = useState<any>(null);
     const [latitude, setLatitude] = useState(null);
     const [longitude, setLongitude] = useState(null);
     const [store, setStore] = useState({});
 
-    function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number) {
-        const R = 6371; // Radius of the Earth in kilometers
+    const calculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number) => {
+        const R = 6371; 
         const dLat = (lat2 - lat1) * (Math.PI / 180);
         const dLon = (lon2 - lon1) * (Math.PI / 180);
         const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
             Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
         const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         const distance = R * c;
-
+    
         return distance;
-    }
+    };        
 
     useEffect(() => {
-        Geolocation.getCurrentPosition().then((position) => {
-            setLatitude(position.coords.latitude);
-            setLongitude(position.coords.longitude);
+        const fetchWeather = async () => {
+            try {
+                // Obter a posição atual do dispositivo
+                const position = await Geolocation.getCurrentPosition();
+                const { latitude, longitude } = position.coords;
 
-            fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&appid=SUA_CHAVE_DE_API&units=metric`)
-            .then(response => response.json())
-            .then(data => {
-                setTemperature(data.main.temp);
-            })
-            .catch(error => console.log(error));
-    });
-}, []);
+                // Fazer solicitação para a API de previsão do tempo com base nas coordenadas
+                const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=YOUR_API_KEY&units=metric`);
+                const data = await response.json();
+
+                // Armazenar os dados da previsão do tempo no estado
+                setWeather(data);
+            } catch (error) {
+                console.error('Error fetching weather:', error);
+            }
+        };
+
+        fetchWeather();
+    }, []);
+    
 
 return (
     <IonPage>
@@ -122,10 +132,13 @@ return (
                                 <IonCard>
                                     <IonCardHeader>
                                         <IonIcon name="trophy-outline"></IonIcon>
-                                        <IonCardTitle>Vencedores do Prêmio</IonCardTitle>
+                                        <IonCardTitle>Prêmios Carros</IonCardTitle>
                                         <IonCardSubtitle>
                                             <p>10/01/2024</p>
-                                            <p>Happy Car Rent foi vencedor da melhor loja de aluguel de carros em Portugal!</p>
+                                            <p>Opel Corsa</p>
+                                            <p>BMW M3</p>
+                                            <p>Mercedes c220</p>
+                                            <p>Ferrari</p>
                                         </IonCardSubtitle>
                                     </IonCardHeader>
                                     <IonButton className={"sabermais"} fill="clear">Saber Mais</IonButton>
@@ -136,7 +149,7 @@ return (
                                                 <IonCardTitle>Promoção Black Friday</IonCardTitle>
                                                     <IonCardSubtitle>
                                                     <p>20/01/2024</p>
-                                                    <p>Aproveite o desconto de Black friday no aluguel de um veiculo a sua escolha!</p>
+                                                    <p>Aproveite o desconto de Black friday no aluguel de um veículo a sua escolha!</p>
                                         </IonCardSubtitle>
                                     </IonCardHeader>
                                 <IonButton className={"sabermais"} fill="clear">Saber Mais</IonButton>
