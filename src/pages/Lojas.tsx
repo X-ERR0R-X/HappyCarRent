@@ -15,21 +15,19 @@ import {
 } from '@ionic/react';
 import './Lojas.css';
 
-interface Store {
+interface Loja {
     id: number;
-    name: string;
-    address: string;
-    imagem: string;
+    nome: string;
     descricao: string;
-    email: string;
-    telefone: number;
+    technicalData: string;
+    imagem: string;
 }
 
 
 const Lojas: React.FC = () => {
     const [showModal, setShowModal] = useState(false);
-    const [selectedStore, setSelectedStore] = useState<Store | null>(null);
-    const [ Lojas, setLojas ] = useState<Store[]>([])
+    const [selectedStore, setSelectedStore] = useState<Loja | null>(null);
+    const [ Lojas, setLojas ] = useState<Loja[]>([])
 
     useEffect(() => {
         const fetchLojas = async () => {
@@ -45,7 +43,7 @@ const Lojas: React.FC = () => {
     }, []);
 
 
-    const handleOpenModal = (store: Store) => {
+    const handleOpenModal = (store: Loja) => {
         setSelectedStore(store);
         setShowModal(true);
     };
@@ -77,8 +75,8 @@ const Lojas: React.FC = () => {
                             <IonGrid fixed={true}>
                                 <IonRow>
                                     <IonCol>
-                                        <IonTitle>{store.name}</IonTitle>
-                                        <p>{store.address}</p>
+                                        <IonTitle>{store.nome}</IonTitle>
+                                        <p>{store.descricao}</p>
                                     </IonCol>
                                     <IonCol>
                                         <IonButton onClick={() => handleOpenModal(store)} color={'red'}>Mais informações</IonButton>
@@ -93,14 +91,13 @@ const Lojas: React.FC = () => {
                 {selectedStore && (
                     <IonModal isOpen={showModal} onDidDismiss={handleCloseModal}>
                         <IonContent>
-                            <IonRow><IonTitle><h2>{selectedStore.name}</h2></IonTitle></IonRow>
+                            <IonRow><IonTitle><h2>{selectedStore.nome}</h2></IonTitle></IonRow>
                             <IonRow><IonImg src={selectedStore.imagem}></IonImg></IonRow>
                             <h3>Morada</h3>
-                            <IonRow><IonLabel>{selectedStore.address}</IonLabel></IonRow>
+                            <IonRow><IonLabel>{selectedStore.descricao}</IonLabel></IonRow>
                             <h3>Descrição</h3>
                             <IonRow><p>{selectedStore.descricao}</p></IonRow>
-                            <IonRow><IonLabel>email: {selectedStore.email}</IonLabel></IonRow>
-                            <IonRow><IonLabel>telefone: {selectedStore.telefone}</IonLabel></IonRow>
+                            <IonRow><IonLabel>email: {selectedStore.technicalData}</IonLabel></IonRow>
                             <IonRow><IonButton onClick={handleExitModal} color={'red'}>Sair</IonButton></IonRow>
                         </IonContent>
                     </IonModal>
