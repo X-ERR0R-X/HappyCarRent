@@ -32,7 +32,7 @@ const Frota: React.FC = () => {
     useEffect(() => {
         const fetchLojas = async () => {
             try {
-                const response = await fetch('http://localhost:3000/carros');
+                const response = await fetch('http://localhost:3000/frota');
                 const data = await response.json();
                 setLojas(data);
             } catch (error) {
