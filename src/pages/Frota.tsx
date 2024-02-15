@@ -93,7 +93,7 @@ const Frota: React.FC = () => {
                         <IonContent>
                             <IonRow><IonTitle><h2>{selectedStore.nome}</h2></IonTitle></IonRow>
                             <IonRow><IonImg src={selectedStore.imagem}></IonImg></IonRow>
-                            <h3>Morada</h3>
+                            <h3>Características</h3>
                             <IonRow><IonLabel>{selectedStore.descricao}</IonLabel></IonRow>
                             <h3>Descrição</h3>
                             <IonRow><p>{selectedStore.descricao}</p></IonRow>
