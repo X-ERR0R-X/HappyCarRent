@@ -97,7 +97,7 @@ const Frota: React.FC = () => {
                             <IonRow><IonLabel>{selectedStore.descricao}</IonLabel></IonRow>
                             <h3>Descrição</h3>
                             <IonRow><p>{selectedStore.descricao}</p></IonRow>
-                            <IonRow><IonLabel>email: {selectedStore.technicalData}</IonLabel></IonRow>
+                            <IonRow><IonLabel>Dados Técnicos: {selectedStore.technicalData}</IonLabel></IonRow>
                             <IonRow><IonButton onClick={handleExitModal} color={'red'}>Sair</IonButton></IonRow>
                         </IonContent>
                     </IonModal>
